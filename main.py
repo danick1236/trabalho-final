@@ -1,5 +1,30 @@
+def menu_inicial():
+    print("==============================")
+    print("        CARD MANAGER")
+    print("==============================")
+    print()
+    print("1 - Fazer login")
+    print("2 - Cadastrar usuario")
+    print("3 - Sair")
 
-def menu():
+    opcao = input("\nEscolha uma opção: ")
+
+    if opcao == "1":
+        usuario_logado = login()
+
+        if usuario_logado != None:
+            menu(usuario_logado)
+
+    elif opcao == "2":
+        cadastrar_usuario()
+
+    elif opcao == "3":
+        print("Encerrando o Card Manager...")
+
+    else:
+        print("Opção inválida!")
+
+def menu(usuario_logado):
     print("==============================")
     print("        CARD MANAGER")
     print("==============================")
@@ -15,10 +40,10 @@ def menu():
     opcao = input("Escolha uma opção: ")
 
     if opcao == "1":
-        cadastrar_carta()
+        cadastrar_carta(usuario_logado)
 
     elif opcao == "2":
-        print("Opção de listagem selecionada!")
+        listar_cartas(usuario_logado)
 
     elif opcao == "3":
         print("Opção de pesquisa na internet selecionada!")
@@ -39,7 +64,7 @@ def menu():
     print("Você escolheu a opção:", opcao)
 
 
-def cadastrar_carta():
+def cadastrar_carta(usuario_logado):
     print("\n========== CADASTRAR CARTA ==========")
 
     nome = input("Nome da carta: ")
@@ -80,6 +105,12 @@ def cadastrar_carta():
     raridade = input("Raridade: ")
     quantidade = input("Quantidade: ")
 
+    arquivo = open("colecoes/" + usuario_logado + ".txt", "a")
+
+    arquivo.write(nome + ";" + jogo + ";" + colecao + ";" + raridade + ";" + quantidade + "\n")
+
+    arquivo.close()
+
     print("\nCarta cadastrada com sucesso!")
     print("Nome:", nome)
     print("Jogo:", jogo)
@@ -88,4 +119,40 @@ def cadastrar_carta():
     print("Quantidade:", quantidade)
 
 
-menu()
+def listar_cartas(usuario_logado):
+    print("\n========== MINHA COLECAO ==========")
+
+    arquivo = open("colecoes/" + usuario_logado + ".txt", "r")
+
+    encontrou = False
+
+    for linha in arquivo:
+        dados = linha.strip().split(";")
+
+        print("\nNome:", dados[0])
+        print("Jogo:", dados[1])
+        print("Coleção:", dados[2])
+        print("Raridade:", dados[3])
+        print("Quantidade:", dados[4])
+
+        encontrou = True
+
+    arquivo.close()
+
+    if encontrou == False:
+        print("\nSua coleção está vazia!")
+
+
+
+
+def cadastrar_usuario():
+    print("\n===== CADASTRO DE USUARIO =====")
+
+    usuario = input("Digite seu usuario: ")
+    senha = input("Digite sua senha: ")
+
+    arquivo = open("usuarios.txt", "a")
+    arquivo.write(usuario + ";" + senha + "\n")
+    arquivo.close()
+
+    print("\nUsuario cadastrado com sucesso!")
