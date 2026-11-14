@@ -156,3 +156,26 @@ def cadastrar_usuario():
     arquivo.close()
 
     print("\nUsuario cadastrado com sucesso!")
+
+    def login():
+    print("\n===== LOGIN =====")
+
+    usuario = input("Digite seu usuario: ")
+    senha = input("Digite sua senha: ")
+
+    arquivo = open("usuarios.txt", "r")
+
+    for linha in arquivo:
+        dados = linha.strip().split(";")
+
+        if dados[0] == usuario and dados[1] == senha:
+            arquivo.close()
+            print("\nLogin realizado com sucesso!")
+            return usuario
+
+    arquivo.close()
+
+    print("\nUsuario ou senha incorretos!")
+    return None
+
+menu_inicial()
